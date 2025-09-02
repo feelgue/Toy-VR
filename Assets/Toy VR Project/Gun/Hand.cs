@@ -5,15 +5,17 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 public class Hand : MonoBehaviour
 {
-    public ActionBasedController abc; //캡틱 진동을 주기 위해 컨트롤러 컴포넌트 참조
-    public Gun gun; //총에 트리거 효과를 주기 위해 참조 
+    public ActionBasedController abc;
+    public Gun gun;
+    public XRRayInteractor rayInteractor; // Ray Interactor 참조
 
-    
     public InputActionProperty triggerButton;
     private void Awake()
     {
         if (!abc) abc = GetComponent<ActionBasedController>();
         if (!gun) gun = GetComponentInChildren<Gun>();
+        if (!rayInteractor) rayInteractor = GetComponentInChildren<XRRayInteractor>();
+
         triggerButton.EnableDirectAction();
     }
 
@@ -32,24 +34,29 @@ public class Hand : MonoBehaviour
         triggerButton.DisableDirectAction();
     }
 
-    public bool isFire; //트리거가 눌렸으래 True
-    public float hapticInterval; //햅틱 피드백 간격
+    public bool isFire;
+    public float hapticInterval;
     [Range(0,1)]
-    public float hapticIntensity; //진동 강도
-    public float hapticDuration; //진동 지속시간
+    public float hapticIntensity;
+    public float hapticDuration;
 
     public void SendHaptic()
     {
-        //컨트롤러에 진동 보내는 함수 
         abc.SendHapticImpulse(hapticIntensity, hapticDuration);
     }
     void OntriggerInput(InputAction.CallbackContext context)
     {
-        isFire = context.ReadValueAsButton(); //버튼이 눌렸으면 true ,떄졌으면 false를 반환하는 함수
-        
+        isFire = context.ReadValueAsButton();
+
         print($"트리거 눌림 : {isFire}");
         
-        gun.PullTrigger(isFire);
+        // 총을 쏘는 로직은 Gun 스크립트의 Update 함수에서 처리되므로,
+        // 여기서는 isFire 상태만 업데이트합니다.
+        // gun.PullTrigger(isFire); // 이 부분은 이제 필요 없습니다.
+        if (!isFire)
+        {
+            gun.PullTrigger(false);
+        }
     }
 
     private float timeCache;
@@ -59,6 +66,14 @@ public class Hand : MonoBehaviour
 
         if (Time.time < timeCache + hapticInterval) {return;}
         timeCache = Time.time;
-        SendHaptic();
+        
+        // Raycast가 Enemy에 닿았을 때만 진동을 보내도록
+        if (rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        {
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                SendHaptic();
+            }
+        }
     }
 }
