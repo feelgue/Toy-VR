@@ -67,13 +67,7 @@ public class Hand : MonoBehaviour
         if (Time.time < timeCache + hapticInterval) {return;}
         timeCache = Time.time;
         
-        // Raycast가 Enemy에 닿았을 때만 진동을 보내도록
-        if (rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
-        {
-            if (hit.collider.CompareTag("Enemy"))
-            {
-                SendHaptic();
-            }
-        }
+        SendHaptic();
+        
     }
 }

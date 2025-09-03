@@ -34,5 +34,6 @@ public class EnemyProjectile : MonoBehaviour
                 Debug.Log($"데미지를 {enemy.damage} 입혔습니다");
             }
         }
+        Destroy(gameObject);
     }
 }

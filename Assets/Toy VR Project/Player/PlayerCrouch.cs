@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 public class PlayerCrouch : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public class PlayerCrouch : MonoBehaviour
         {
             startY = cameraOffset.localPosition.y;
         }
+        crouchAction.EnableDirectAction();
     }
 
     private void OnEnable()
@@ -29,6 +32,11 @@ public class PlayerCrouch : MonoBehaviour
     {
         crouchAction.action.performed -= OnCrouchAction;
         Debug.Log("버튼을 땠습니다");
+    }
+
+    private void OnDestroy()
+    {
+        crouchAction.DisableDirectAction();
     }
 
     private void OnCrouchAction(InputAction.CallbackContext context)
