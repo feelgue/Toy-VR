@@ -446,6 +446,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 0}
   Ghostmagazine: {fileID: 0}
+  magazineSocket: {fileID: 0}
   rpm: 600
 --- !u!1 &6923505371701246307
 GameObject:

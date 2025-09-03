@@ -2544,6 +2544,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: M16A1_Magazine
       objectReference: {fileID: 0}
+    - target: {fileID: 2192236283496870340, guid: a5bd842d2aaf7d440bd316448aba48b9, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2279599660212022093, guid: a5bd842d2aaf7d440bd316448aba48b9, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3514558319810855488, guid: a5bd842d2aaf7d440bd316448aba48b9, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2608,7 +2620,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 4294967295
+    m_Bits: 4
   m_AttachTransform: {fileID: 2073637249}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -2663,6 +2675,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_M16A1
       objectReference: {fileID: 0}
+    - target: {fileID: 4233662289841604329, guid: deadc53e4c0c7ea42a702475a62bd14a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233662289841604329, guid: deadc53e4c0c7ea42a702475a62bd14a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5397217694114671994, guid: deadc53e4c0c7ea42a702475a62bd14a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.019
@@ -2703,6 +2723,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7350667140901812692, guid: deadc53e4c0c7ea42a702475a62bd14a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8478399727371051340, guid: deadc53e4c0c7ea42a702475a62bd14a, type: 3}
       propertyPath: anim
       value: 
@@ -2738,7 +2762,7 @@ PrefabInstance:
     - target: {fileID: 8478399727371051340, guid: deadc53e4c0c7ea42a702475a62bd14a, type: 3}
       propertyPath: magazineSocket
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2118829950213479371}
     - target: {fileID: 8478399727371051340, guid: deadc53e4c0c7ea42a702475a62bd14a, type: 3}
       propertyPath: reloadButton.m_Action.m_Name
       value: Reload Button
@@ -2845,7 +2869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3747677758006234429, guid: 76bfc363421ebd74f82153483b7882ee, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

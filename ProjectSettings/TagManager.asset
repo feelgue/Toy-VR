@@ -6,14 +6,15 @@ TagManager:
   tags:
   - Enemy
   - Magazine
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Magazine
   - Water
   - UI
-  - 
+  - SpentMagazine
   - 
   - 
   - 
