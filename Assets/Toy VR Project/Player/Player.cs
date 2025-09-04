@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int currentHp;
-    public int maxHp;
-    
     public void takeDamage(int damage)
     {
-        currentHp -= damage;
+        GameManager.instance.playercurrenthp -= damage;
     }
 }

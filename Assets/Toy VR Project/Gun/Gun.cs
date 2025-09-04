@@ -77,12 +77,20 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
-        if (!hand.isFire) return;
-
-        if (Time.time < fireTime + interval)
+        // 1. 발사 조건을 먼저 확인합니다.
+        if (!hand.isFire || GameManager.instance.ammoCount <= 0)
         {
+            muzzle.Stop();
+            anim.SetBool("Shoot", false);
             return;
         }
+
+        // 2. 발사 간격이 충족되었을 때만 총을 쏩니다.
+        if (Time.time < fireTime + interval)
+        {
+            return; // 아직 발사할 시간이 아님
+        }
+
 
         if (rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
@@ -93,14 +101,19 @@ public class Gun : MonoBehaviour
                 hit.collider.GetComponent<Enemy>().TakeDamage(gunDamage);
             }
         }
+        
+        // 3. 발사 조건을 모두 만족하면 Fire() 함수를 호출하고 시간을 갱신합니다.
         Fire();
+        fireTime = Time.time;
     }
 
     private void Fire()
     {
+        GameManager.instance.ammoCount--; //총알 소비 
+        Debug.Log("총 발싸");
+
         muzzle.Play();
         anim.SetBool("Shoot", true);
-
         StopAllCoroutines();
         StartCoroutine(ResetShootAnimation());
     }
@@ -110,22 +123,14 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         anim.SetBool("Shoot", false);
     }
-
-    public void PullTrigger(bool isOn)
-    {
-        if (!isOn)
-        {
-            muzzle.Stop();
-        }
-    }
-
+    
     // 소켓에 탄창이 들어왔을 때 실행
     private void OnMagazinePlaced(SelectEnterEventArgs args)
     {
         // 소켓에 들어온 오브젝트를 magazine 변수에 할당
         magazine = args.interactableObject.transform.gameObject;
         Debug.Log("탄창이 장착되었습니다.");
-
+        GameManager.instance.ammoCount = GameManager.instance.ammoMax;
         if (Ghostmagazine != null)
         {
             Ghostmagazine.SetActive(false);
@@ -172,7 +177,7 @@ public class Gun : MonoBehaviour
         }
 
         Destroy(droppedMagazine, 5f);
-        magazine = null;
+        GameManager.instance.ammoCount = 0; //재장전할떄 탄창 0으로 만들기 
 
         if (Ghostmagazine != null)
         {

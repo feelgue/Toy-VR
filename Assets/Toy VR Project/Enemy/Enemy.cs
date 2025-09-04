@@ -48,9 +48,11 @@ public class Enemy : MonoBehaviour
     
     // --- 총알 발사 함수 추가 ---
     private void FireBullet()
-    {
+    { 
+        //적의 사격 오차
+        Vector3 shooterror = new Vector3(Random.Range(0, 0.5f), Random.Range(0, 0.5f), Random.Range(0, 0.5f)); 
         // 플레이어를 바라보는 방향을 계산
-        Vector3 direction = (playerTransform.position - firePoint.position).normalized;
+        Vector3 direction = ((playerTransform.position + shooterror) - firePoint.position).normalized;
         
         // 방향을 회전 값으로 변환
         Quaternion bulletRotation = Quaternion.LookRotation(direction);
@@ -62,7 +64,6 @@ public class Enemy : MonoBehaviour
         bullet.GetComponent<EnemyProjectile>().enemy = this;
     }
     
-    // 기존 코드
     public void TakeDamage(int damage)
     {
         currenthp -=  damage;

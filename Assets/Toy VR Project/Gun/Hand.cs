@@ -49,14 +49,6 @@ public class Hand : MonoBehaviour
         isFire = context.ReadValueAsButton();
 
         print($"트리거 눌림 : {isFire}");
-        
-        // 총을 쏘는 로직은 Gun 스크립트의 Update 함수에서 처리되므로,
-        // 여기서는 isFire 상태만 업데이트합니다.
-        // gun.PullTrigger(isFire); // 이 부분은 이제 필요 없습니다.
-        if (!isFire)
-        {
-            gun.PullTrigger(false);
-        }
     }
 
     private float timeCache;

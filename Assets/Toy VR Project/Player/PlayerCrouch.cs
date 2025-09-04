@@ -48,7 +48,7 @@ public class PlayerCrouch : MonoBehaviour
         Vector3 newPosition = cameraOffset.localPosition;
         if (isCrouched)
         {
-            newPosition.y = startY - 0.5f; // 0.5m 낮추기
+            newPosition.y = startY - 0.2f; // 0.2m 낮추기
             Debug.Log("움크리기");
         }
         else
