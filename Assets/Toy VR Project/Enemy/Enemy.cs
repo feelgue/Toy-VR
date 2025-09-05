@@ -14,14 +14,14 @@ public class Enemy : MonoBehaviour
     public float bulletSpeed = 20f; // 총알 속도
     public float fireRate = 2f;     // 초당 발사 횟수 (예: 2초에 한 번)
     private float nextFireTime;     // 다음 발사 가능한 시간
-
+    private bool isDead;            //적의 죽음 판단 
     private Transform playerTransform; // 플레이어의 위치 정보
 
     private void Awake()
     {
         currenthp = maxHp;
         anim = GetComponent<Animator>();
-        
+        isDead = false;
     }
 
     private void Start()
@@ -32,12 +32,13 @@ public class Enemy : MonoBehaviour
         {
             playerTransform = player.transform;
         }
+        
     }
 
     private void Update()
     {
         // 플레이어 트랜스폼이 존재하고, 다음 발사 시간이 되었는지 확인
-        if (playerTransform != null && Time.time >= nextFireTime)
+        if (playerTransform != null && Time.time >= nextFireTime && !isDead)
         {
             // 발사 함수 호출
             FireBullet();
@@ -50,33 +51,47 @@ public class Enemy : MonoBehaviour
     private void FireBullet()
     { 
         //적의 사격 오차
-        Vector3 shooterror = new Vector3(Random.Range(0, 0.5f), Random.Range(0, 0.5f), Random.Range(0, 0.5f)); 
+        Vector3 shooterror = new Vector3(Random.Range(0, 0.2f), Random.Range(0, 0.2f), Random.Range(0, 0.2f)); 
         // 플레이어를 바라보는 방향을 계산
         Vector3 direction = ((playerTransform.position + shooterror) - firePoint.position).normalized;
+        Vector3 Enemydirection = (playerTransform.position - firePoint.position).normalized;
         
         // 방향을 회전 값으로 변환
         Quaternion bulletRotation = Quaternion.LookRotation(direction);
+        
+        //적이 방향을 플레이어로 변환
+        gameObject.transform.rotation = Quaternion.LookRotation(Enemydirection);
 
         // 총알 프리팹을 firePoint 위치와, 플레이어를 바라보는 회전 값으로 생성
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, bulletRotation);
         
         // 생성된 총알에 'Enemy' 스크립트의 레퍼런스를 전달
         bullet.GetComponent<EnemyProjectile>().enemy = this;
+        anim.SetTrigger("Fire");
     }
     
     public void TakeDamage(int damage)
     {
+        if (isDead == true){return;}
+
         currenthp -=  damage;
+        anim.SetTrigger("Hit");
         Debug.Log($"현재 체력 {currenthp}");
         if (currenthp <= 0)
         {
-            anim.SetTrigger("Die"); //애니매이션 끝에 Death 함수 넣을것 
+            
             Death();
         }
     }
 
     void Death()
     {
+        GameManager.instance.score += 10;
+        isDead = true;
+        anim.SetTrigger("Die");
         Destroy(gameObject,3f);
+        
+        // 적이 파괴되기 직전에 GameManager에 알림
+        GameManager.instance.RemoveEnemy(gameObject);
     }
 }

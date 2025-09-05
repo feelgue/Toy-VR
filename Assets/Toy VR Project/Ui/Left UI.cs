@@ -10,13 +10,15 @@ public class LeftUI : MonoBehaviour
    public Image enemyimage; 
    public Text hptext;
    public Text ammotext;
-   public Text rounttext;
+   public Text Scoretext;
    public Text enemiestext;
    
    private void Update()
    {
       hpbarimage.fillAmount = (float)GameManager.instance.playercurrenthp / (float)GameManager.instance.playermaxhp;
       hptext.text = $"{GameManager.instance.playercurrenthp}/{GameManager.instance.playermaxhp}";
+
+      Scoretext.text = $"Scroe : {GameManager.instance.score}";
 
       ammobarimage.fillAmount = (float)GameManager.instance.ammoCount / (float)GameManager.instance.ammoMax;
       ammotext.text = $"{GameManager.instance.ammoCount}/{GameManager.instance.ammoMax}";
